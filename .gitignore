@@ -1,0 +1,13 @@
+## .NET
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+.vs/
+.vscode/
+*.swp
+
+## Tools / scratch
+tools/reference/node_modules/
+*.bin
