@@ -1,6 +1,6 @@
 services:
   paybysquare:
-    image: marusko/paybysquare:latest
+    image: marusko/paybysquareapi:latest
     container_name: paybysquare
     restart: unless-stopped
     ports:

@@ -30,7 +30,7 @@ Vytvorte súbor `docker-compose.yml` (v tomto repozitári je pripravená šabló
 ```yaml
 services:
   paybysquare:
-    image: marusko/paybysquare:latest
+    image: marusko/paybysquareapi:latest
     container_name: paybysquare
     restart: unless-stopped
     ports:
@@ -49,8 +49,8 @@ docker compose up -d
 
 A je to. Služba beží na porte **8080**:
 
-- Dokumentácia: `http://<ip-nas>:8080/swagger`
-- Príklad QR kódu: `http://<ip-nas>:8080/api/v1/qr?amount=10&iban=SK7283300000009111111118`
+- Dokumentácia: `http://<ip>:8080/swagger`
+- Príklad QR kódu: `http://<ip>:8080/api/v1/qr?amount=10&iban=SK7283300000009111111118`
 
 Image beží pod neprivilegovaným používateľom a je dostupný pre `amd64` aj `arm64`, takže funguje
 na Intel aj ARM NAS-och (Synology, QNAP a pod.).
