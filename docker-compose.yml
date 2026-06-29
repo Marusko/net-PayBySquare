@@ -4,8 +4,14 @@ services:
     container_name: paybysquare
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - 8080:8080
     environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      APP_UID: 1654
+      ASPNETCORE_HTTP_PORTS: 8080
+      DOTNET_RUNNING_IN_CONTAINER: true
+      DOTNET_VERSION: 10.0.9
+      ASPNET_VERSION: 10.0.9
       TZ: "Europe/Bratislava"
       # Voliteľné – vyžaduje hlavičku X-Api-Key na /api/* endpointoch:
       # PBS_API_KEY: "zmente-ma"

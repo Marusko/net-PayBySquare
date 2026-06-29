@@ -25,21 +25,7 @@ porovnateľná s plateným riešením [easy-square.sk](https://www.easy-square.s
 
 ## Spustenie cez Docker Compose
 
-Vytvorte súbor `docker-compose.yml` (v tomto repozitári je pripravená šablóna):
-
-```yaml
-services:
-  paybysquare:
-    image: marusko/paybysquareapi:latest
-    container_name: paybysquare
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    environment:
-      TZ: "Europe/Bratislava"
-      # PBS_API_KEY: "zmente-ma"      # voliteľné – vyžaduje hlavičku X-Api-Key na /api/*
-      # PBS_RATE_LIMIT: "120"          # voliteľné – limit požiadaviek / minútu / klient
-```
+Vytvorte súbor `docker-compose.yml` v tomto repozitári je pripravená šablóna [docker-compose.yml](docker-compose.yml)
 
 Potom spustite:
 
