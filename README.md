@@ -38,9 +38,6 @@ A je to. Služba beží na porte **8080**:
 - Dokumentácia: `http://<ip>:8080/swagger`
 - Príklad QR kódu: `http://<ip>:8080/api/v1/qr?amount=10&iban=SK7283300000009111111118`
 
-Image beží pod neprivilegovaným používateľom a je dostupný pre `amd64` aj `arm64`, takže funguje
-na Intel aj ARM NAS-och (Synology, QNAP a pod.).
-
 ## API endpointy
 
 ### `GET /api/v1/qr` — QR obrázok z parametrov v URL
