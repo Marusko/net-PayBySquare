@@ -63,12 +63,8 @@ public sealed class QrQuery
     [FromQuery(Name = "format")] public string? Format { get; set; }       // png | svg | string
     [FromQuery(Name = "size")] public int? Size { get; set; }              // target px
     [FromQuery(Name = "ppm")] public int? Ppm { get; set; }               // pixels per module
-    [FromQuery(Name = "margin")] public bool? Margin { get; set; }         // draw quiet zone
-    [FromQuery(Name = "ecc")] public string? Ecc { get; set; }            // L|M|Q|H
-    [FromQuery(Name = "dark")] public string? Dark { get; set; }          // #RRGGBB
-    [FromQuery(Name = "light")] public string? Light { get; set; }        // #RRGGBB
-    [FromQuery(Name = "logo")] public bool? Logo { get; set; }            // PAY by square frame (default true)
-    [FromQuery(Name = "brandcolor")] public string? BrandColor { get; set; } // #RRGGBB
+    [FromQuery(Name = "logo")] public string? Logo { get; set; }          // print (default) / electronic
+    [FromQuery(Name = "brandcolor")] public string? BrandColor { get; set; } // one of the manual's four
 
     public PaymentDto ToPayment() => new()
     {
@@ -91,11 +87,7 @@ public sealed class RenderQuery
     [FromQuery(Name = "format")] public string? Format { get; set; }
     [FromQuery(Name = "size")] public int? Size { get; set; }
     [FromQuery(Name = "ppm")] public int? Ppm { get; set; }
-    [FromQuery(Name = "margin")] public bool? Margin { get; set; }
-    [FromQuery(Name = "ecc")] public string? Ecc { get; set; }
-    [FromQuery(Name = "dark")] public string? Dark { get; set; }
-    [FromQuery(Name = "light")] public string? Light { get; set; }
-    [FromQuery(Name = "logo")] public bool? Logo { get; set; }
+    [FromQuery(Name = "logo")] public string? Logo { get; set; }
     [FromQuery(Name = "brandcolor")] public string? BrandColor { get; set; }
 }
 

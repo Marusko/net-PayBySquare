@@ -74,22 +74,25 @@ api.MapGet("/qr", ([AsParameters] QrQuery query) =>
     var payment = query.ToPayment();
     if (!TryBuildModel(payment, out var model, out var error)) return error;
 
+    if (!QrOptionsMapper.TryBuild(query.Size, query.Ppm, query.Logo, query.BrandColor, out var render, out var problem))
+        return Problem(problem!.Detail, problem.Field);
+
     string code = PayBySquareCodec.Encode(model);
-    var render = QrOptionsMapper.Build(query.Ecc, query.Size, query.Ppm, query.Margin, query.Dark, query.Light,
-        query.Logo, query.BrandColor);
+    if (TooLong(code, out var tooLong)) return tooLong;
     return Render(code, query.Format, render);
 })
 .WithSummary("Generate a QR code via query string")
-.WithDescription("Returns a PNG (default), SVG or the raw encoded string. Example: /api/v1/qr?amount=25.50&iban=SK7283300000009111111118&vs=1234&format=png");
+.WithDescription("Returns a PNG (default), SVG or the raw encoded string. Example: /api/v1/qr?amount=25.50&iban=SK7283300000009111111118&vs=1234&format=png&logo=print");
 
 // --- Generate a QR image/string from a JSON body. ---
 api.MapPost("/qr", ([FromBody] PaymentDto dto, [AsParameters] RenderQuery query) =>
 {
     if (!TryBuildModel(dto, out var model, out var error)) return error;
+    if (!QrOptionsMapper.TryBuild(query.Size, query.Ppm, query.Logo, query.BrandColor, out var render, out var problem))
+        return Problem(problem!.Detail, problem.Field);
 
     string code = PayBySquareCodec.Encode(model);
-    var render = QrOptionsMapper.Build(query.Ecc, query.Size, query.Ppm, query.Margin, query.Dark, query.Light,
-        query.Logo, query.BrandColor);
+    if (TooLong(code, out var tooLong)) return tooLong;
     return Render(code, query.Format, render);
 })
 .WithSummary("Generate a QR code from a JSON payment");
@@ -98,7 +101,9 @@ api.MapPost("/qr", ([FromBody] PaymentDto dto, [AsParameters] RenderQuery query)
 api.MapPost("/encode", ([FromBody] PaymentDto dto) =>
 {
     if (!TryBuildModel(dto, out var model, out var error)) return error;
-    return Results.Ok(new EncodeResponse(PayBySquareCodec.Encode(model)));
+    string code = PayBySquareCodec.Encode(model);
+    if (TooLong(code, out var tooLong)) return tooLong;
+    return Results.Ok(new EncodeResponse(code));
 })
 .WithSummary("Encode a payment into a PAY by square string");
 
@@ -139,6 +144,21 @@ static IResult Problem(string detail, string? field = null) =>
     Results.Problem(detail: detail, statusCode: StatusCodes.Status400BadRequest,
         title: "Invalid request",
         extensions: field is null ? null : new Dictionary<string, object?> { ["field"] = field });
+
+// Specification table 10 caps a PAY by square sequence at 550 characters.
+static bool TooLong(string code, out IResult error)
+{
+    if (code.Length > PayBySquareStandard.MaxSequenceLength)
+    {
+        error = Problem(
+            $"The payment encodes to {code.Length} characters; specification table 10 caps a PAY by " +
+            $"square code at {PayBySquareStandard.MaxSequenceLength}. Shorten the note or beneficiary fields.",
+            "note");
+        return true;
+    }
+    error = Results.Empty;
+    return false;
+}
 
 static bool TryBuildModel(PaymentDto dto, out PaymentRequest model, out IResult error)
 {

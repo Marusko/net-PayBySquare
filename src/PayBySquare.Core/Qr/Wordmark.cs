@@ -44,17 +44,22 @@ public static class Wordmark
         Regular = runs[1];
     }
 
-    /// <summary>Vertical extent (min/max Y) of both runs combined, at reference size.</summary>
-    public static (float Min, float Max) VerticalExtent()
+    /// <summary>
+    /// Ink extent of a single run at reference size. Y grows downwards, so for the all-caps bold run
+    /// <c>MaxY</c> is the baseline and <c>MaxY - MinY</c> the cap height.
+    /// </summary>
+    public static (float MinX, float MaxX, float MinY, float MaxY) Extent(Run run)
     {
-        float min = float.MaxValue, max = float.MinValue;
-        foreach (var run in new[] { Bold, Regular })
-            foreach (var contour in run.Contours)
-                foreach (var p in contour)
-                {
-                    if (p.Y < min) min = p.Y;
-                    if (p.Y > max) max = p.Y;
-                }
-        return (min, max);
+        float minX = float.MaxValue, maxX = float.MinValue;
+        float minY = float.MaxValue, maxY = float.MinValue;
+        foreach (var contour in run.Contours)
+            foreach (var p in contour)
+            {
+                if (p.X < minX) minX = p.X;
+                if (p.X > maxX) maxX = p.X;
+                if (p.Y < minY) minY = p.Y;
+                if (p.Y > maxY) maxY = p.Y;
+            }
+        return (minX, maxX, minY, maxY);
     }
 }

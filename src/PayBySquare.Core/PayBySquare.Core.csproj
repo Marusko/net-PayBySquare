@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Pre-baked "PAY by square" wordmark outlines (derived from the SIL OFL "Lato" font at
-         build time) so no font library is needed at runtime. -->
+    <!-- Pre-baked "PAY by square" wordmark outlines (traced from the official logo manual, see
+         tools/bake) so no font library is needed at runtime. -->
     <EmbeddedResource Include="Assets\Wordmark.bin" />
   </ItemGroup>
 
