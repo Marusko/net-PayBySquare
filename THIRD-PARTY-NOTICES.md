@@ -13,13 +13,19 @@ in-house (no third-party imaging or font library at runtime).
 
 ## Bundled assets
 
-- **"PAY by square" wordmark** — the file `src/PayBySquare.Core/Assets/Wordmark.bin` contains
-  vector outlines derived from the **Lato** typeface (SIL Open Font License 1.1). The license text
-  is included at `tools/bake/OFL.txt`. The outlines are generated at build time by the dev-only
-  tool in `tools/bake` (which is **not** part of the shipped application).
+- **"PAY by square" wordmark** — the file `src/PayBySquare.Core/Assets/Wordmark.bin` holds the
+  wordmark as vector outlines traced from the artwork in the official *PAY by square logo manual
+  1.0.4* (Slovak Banking Association), page 7. It is the logo itself, not a substitute typeface set
+  to resemble it, which is what the manual requires ("Changes in composition of logo, that is
+  editing of shapes or colors ... are not permitted"). The readable source is
+  `tools/bake/wordmark-outlines.txt`; the blob is produced from it by the dev-only tool in
+  `tools/bake` (which is **not** part of the shipped application).
+
+  PAY by square is a standard of the Slovak Banking Association; the logo and the name are theirs.
+  This project reproduces the logo as the manual specifies, for use alongside PAY by square codes.
 
 ## Dev-only tooling (not shipped)
 
-- `tools/bake` uses SixLabors.ImageSharp.Drawing / SixLabors.Fonts (Six Labors Split License) to
-  bake the wordmark outlines once. It is not referenced by `PayBySquare.Core` or `PayBySquare.Api`
-  and is excluded from the Docker image.
+- `tools/bake` has no package dependencies: it parses `wordmark-outlines.txt` and flattens the
+  curves into the blob. It is not referenced by `PayBySquare.Core` or `PayBySquare.Api` and is
+  excluded from the Docker image.
