@@ -5,8 +5,5 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- Dev-time only. NOT referenced by the shipped Core/Api projects. -->
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.4" />
-  </ItemGroup>
+  <!-- Dev-time only, no dependencies. NOT referenced by the shipped Core/Api projects. -->
 </Project>
