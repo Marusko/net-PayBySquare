@@ -10,8 +10,8 @@ services:
       APP_UID: 1654
       ASPNETCORE_HTTP_PORTS: 8080
       DOTNET_RUNNING_IN_CONTAINER: true
-      DOTNET_VERSION: 10.0.9
-      ASPNET_VERSION: 10.0.9
+      DOTNET_VERSION: 10.0.12
+      ASPNET_VERSION: 10.0.12
       TZ: "Europe/Bratislava"
       # Voliteľné – vyžaduje hlavičku X-Api-Key na /api/* endpointoch:
       # PBS_API_KEY: "zmente-ma"
